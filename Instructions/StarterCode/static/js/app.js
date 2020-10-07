@@ -1017,14 +1017,21 @@ var baseTable = tableData.forEach((sighting) => {
         cell.text(value);        
     });
 });
+
+// Establishes input variables entered by user
+
 // Pull the user input into a variable
-var dateSearchBox = d3.select("input");
+var filterButton = d3.select("#filter-btn");
 // Create function to pull date from inputbox and filter table results
 function dateSearch(event) {
-    // Pulls date entered by user
-    var inputDate = d3.event.target.value;
+  // Establishes input variables entered by user
+  var inputDate = d3.select("#datetime").property("value");
+  var inputCity = d3.select("#city").property("value");
+  var inputState = d3.select("#state").property("value");
+  var inputCountry = d3.select("#country").property("value");
+  var inputShape = d3.select("#shape").property("value");
     // Filters the data to only pull in entries matching user date input based on the datetime field
-    var filteredData = tableData.filter(sighting => sighting.datetime === inputDate);
+    var filteredData = tableData.filter(sighting => sighting.datetime === inputDate)
     // Pull fitered table from data into <tbody> tag in index.html
     var fileredTable = filteredData.forEach((sighting) => {
       // Connects directly to body of table
@@ -1043,5 +1050,6 @@ function dateSearch(event) {
     });
 };
 
+
 // Sets up event handler so that updating the date will call the dateSearch() function
-dateSearchBox.on("change", dateSearch);
+filterButton.on("click", dateSearch);
