@@ -1050,11 +1050,11 @@ if (inputShape !== "") {filterDict.shape = inputShape};
   // if (inputShape !== "") {filterDict.push({"shape":inputShape})};
 
   console.log(filterDict)
-
+  var filteredData = tableData
     // Filters the data to only pull in entries matching user date input based on the datetime field
     Object.entries(filterDict).forEach(([key,value]) => {
       console.log(key, value);
-      var filteredData = tableData.filter(sighting => sighting.key === value);
+      filteredData = filteredData.filter(sighting => sighting[key] === value);
     });
     // Pull fitered table from data into <tbody> tag in index.html
     var fileredTable = filteredData.forEach((sighting) => {
