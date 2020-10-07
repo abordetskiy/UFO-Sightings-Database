@@ -1022,14 +1022,28 @@ var baseTable = tableData.forEach((sighting) => {
 
 // Pull the user input into a variable
 var filterButton = d3.select("#filter-btn");
+
+
 // Create function to pull date from inputbox and filter table results
 function dateSearch(event) {
   // Establishes input variables entered by user
+  var filterDict = []
+
   var inputDate = d3.select("#datetime").property("value");
-  var inputCity = d3.select("#city").property("value");
-  var inputState = d3.select("#state").property("value");
-  var inputCountry = d3.select("#country").property("value");
-  var inputShape = d3.select("#shape").property("value");
+  var inputCity = d3.select("#city").property("value").toUpperCase();
+  var inputState = d3.select("#state").property("value").toUpperCase();
+  var inputCountry = d3.select("#country").property("value").toUpperCase();
+  var inputShape = d3.select("#shape").property("value").toUpperCase();
+
+
+  if (inputDate !== "") {filterDict.push({"inputCity":inputCity})};
+  if (inputCity !== "") {filterDict.push({"inputCity":inputCity})};
+  if (inputState !== "") {filterDict.push({"inputState":inputState})};
+  if (inputCountry !== "") {filterDict.push({"inputCountry":inputCountry})};
+  if (inputShape !== "") { filterDict.push({"inputShape":inputShape})};
+
+  console.log(filterDict)
+
     // Filters the data to only pull in entries matching user date input based on the datetime field
     var filteredData = tableData.filter(sighting => sighting.datetime === inputDate)
     // Pull fitered table from data into <tbody> tag in index.html
