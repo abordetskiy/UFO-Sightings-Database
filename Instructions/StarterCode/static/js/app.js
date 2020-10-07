@@ -1027,7 +1027,7 @@ var filterButton = d3.select("#filter-btn");
 // Create function to pull date from inputbox and filter table results
 function dateSearch(event) {
   // Establishes input variables entered by user
-  var filterDict = []
+  var filterDict = {}
 
   var inputDate = d3.select("#datetime").property("value");
   var inputCity = d3.select("#city").property("value").toUpperCase();
@@ -1035,17 +1035,27 @@ function dateSearch(event) {
   var inputCountry = d3.select("#country").property("value").toUpperCase();
   var inputShape = d3.select("#shape").property("value").toUpperCase();
 
+if (inputDate !== "") {filterDict.datetime = inputDate};
+if (inputCity !== "") {filterDict.city = inputCity};
+if (inputState !== "") {filterDict.state = inputState};
+if (inputCountry !== "") {filterDict.country = inputCountry};
+if (inputShape !== "") {filterDict.shape = inputShape};
 
-  if (inputDate !== "") {filterDict.push({"inputCity":inputCity})};
-  if (inputCity !== "") {filterDict.push({"inputCity":inputCity})};
-  if (inputState !== "") {filterDict.push({"inputState":inputState})};
-  if (inputCountry !== "") {filterDict.push({"inputCountry":inputCountry})};
-  if (inputShape !== "") { filterDict.push({"inputShape":inputShape})};
+
+
+  // if (inputDate !== "") {filterDict.push({"datetime":inputDate})};
+  // if (inputCity !== "") {filterDict.push({"city":inputCity})};
+  // if (inputState !== "") {filterDict.push({"state":inputState})};
+  // if (inputCountry !== "") {filterDict.push({"country":inputCountry})};
+  // if (inputShape !== "") {filterDict.push({"shape":inputShape})};
 
   console.log(filterDict)
 
     // Filters the data to only pull in entries matching user date input based on the datetime field
-    var filteredData = tableData.filter(sighting => sighting.datetime === inputDate)
+    Object.entries(filterDict).forEach(([key,value]) => {
+      console.log(key, value);
+      var filteredData = tableData.filter(sighting => sighting.key === value);
+    });
     // Pull fitered table from data into <tbody> tag in index.html
     var fileredTable = filteredData.forEach((sighting) => {
       // Connects directly to body of table
