@@ -1004,25 +1004,44 @@ var data = [{
 var tableData = data;
 
 // Pull table from data into <tbody> tag in index.html
-var test = tableData.forEach((sighting) => {
-        // Connects directly to body of table
-        tbody = d3.select("tbody")
-        // Add a row in the table body for each row in data
-        var row = tbody.append("tr");
-        // Get all the information from the datas and input it into each table row
+var baseTable = tableData.forEach((sighting) => {
+  // Connects directly to body of table
+  tbody = d3.select("tbody");
+  // Add a row in the table body for each row in data
+  var row = tbody.append("tr");
+  // Get all the information from the datas and input it into each table row
+    Object.entries(sighting).forEach(([key,value]) => {
+        // Add a cell in each row for every entry in the data
+        var cell = row.append("td");
+        // Input the value of the data point into the cell
+        cell.text(value);        
+    });
+});
+// Pull the user input into a variable
+var dateSearchBox = d3.select("input");
+// Create function to pull date from inputbox and filter table results
+function dateSearch(event) {
+    // Pulls date entered by user
+    var inputDate = d3.event.target.value;
+    // Filters the data to only pull in entries matching user date input based on the datetime field
+    var filteredData = tableData.filter(sighting => sighting.datetime === inputDate);
+    // Pull fitered table from data into <tbody> tag in index.html
+    var fileredTable = filteredData.forEach((sighting) => {
+      // Connects directly to body of table
+      tbody = d3.select("tbody");
+      // Resets any previous data in the table
+      tbody.html("");
+      // Add a row in the table body for each row in data
+      var row = tbody.append("tr");
+      // Get all the information from the datas and input it into each table row
         Object.entries(sighting).forEach(([key,value]) => {
             // Add a cell in each row for every entry in the data
             var cell = row.append("td");
             // Input the value of the data point into the cell
             cell.text(value);        
         });
-});
-// Pull the user input into a variable
-var dateSearchBox = d3.select("input");
-// Create function to pull date from inputbox and filter table results
-function dateSearch(event) {
-    var inputDate = d3.event.target.value;
-    console.log(inputDate);
-}
+    });
+};
+
 // Sets up event handler so that updating the date will call the dateSearch() function
 dateSearchBox.on("change", dateSearch);
