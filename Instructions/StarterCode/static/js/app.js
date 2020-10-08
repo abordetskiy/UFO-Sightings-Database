@@ -1000,11 +1000,19 @@ var data = [{
   }
 ];
 
-// from data.js
-var tableData = data;
+// Capitalizes entire dataset for continuity of input/comparison
+data.forEach((element) => {
+element.datetime = String(element.datetime).toUpperCase();
+element.city = String(element.city).toUpperCase();
+element.state = String(element.state).toUpperCase();
+element.country = String(element.country).toUpperCase();
+element.shape = String(element.shape).toUpperCase();
+element.durationMinutes = String(element.durationMinutes).toUpperCase();
+element.comments = String(element.comments).toUpperCase();
+});
 
 // Pull table from data into <tbody> tag in index.html
-var baseTable = tableData.forEach((sighting) => {
+var baseTable = data.forEach((sighting) => {
   // Connects directly to body of table
   tbody = d3.select("tbody");
   // Add a row in the table body for each row in data
@@ -1018,22 +1026,19 @@ var baseTable = tableData.forEach((sighting) => {
     });
 });
 
-// Establishes input variables entered by user
-
-// Pull the user input into a variable
+// Establish the button object for the event handler
 var filterButton = d3.select("#filter-btn");
-
 
 // Create function to pull date from inputbox and filter table results
 function dateSearch(event) {
   // Resets any previous data in the table
   tbody.html("");
-  // Establishes input variables entered by user
-  var inputDate = d3.select("#datetime").property("value");
-  var inputCity = d3.select("#city").property("value");
-  var inputState = d3.select("#state").property("value");
-  var inputCountry = d3.select("#country").property("value");
-  var inputShape = d3.select("#shape").property("value");
+  // Establishes input variables entered by user (Capitized for continuity of input/comparison)
+  var inputDate = d3.select("#datetime").property("value").toUpperCase();
+  var inputCity = d3.select("#city").property("value").toUpperCase();
+  var inputState = d3.select("#state").property("value").toUpperCase();
+  var inputCountry = d3.select("#country").property("value").toUpperCase();
+  var inputShape = d3.select("#shape").property("value").toUpperCase();
   // Creates an object(dictoinary) to store all the input fields
   var filterDict = {}
   if (inputDate !== "") {filterDict.datetime = inputDate};
@@ -1043,7 +1048,7 @@ function dateSearch(event) {
   if (inputShape !== "") {filterDict.shape = inputShape};
 
   console.log(filterDict)
-  var filteredData = tableData
+  var filteredData = data;
     // Filters the data to only pull in entries matching user date input based on the datetime field
     Object.entries(filterDict).forEach(([key,value]) => {
       console.log(key, value);
