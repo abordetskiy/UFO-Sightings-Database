@@ -1026,46 +1026,38 @@ var filterButton = d3.select("#filter-btn");
 
 // Create function to pull date from inputbox and filter table results
 function dateSearch(event) {
+  // Resets any previous data in the table
+  tbody.html("");
   // Establishes input variables entered by user
-  var filterDict = {}
-
   var inputDate = d3.select("#datetime").property("value");
-  var inputCity = d3.select("#city").property("value").toUpperCase();
-  var inputState = d3.select("#state").property("value").toUpperCase();
-  var inputCountry = d3.select("#country").property("value").toUpperCase();
-  var inputShape = d3.select("#shape").property("value").toUpperCase();
-
-if (inputDate !== "") {filterDict.datetime = inputDate};
-if (inputCity !== "") {filterDict.city = inputCity};
-if (inputState !== "") {filterDict.state = inputState};
-if (inputCountry !== "") {filterDict.country = inputCountry};
-if (inputShape !== "") {filterDict.shape = inputShape};
-
-
-
-  // if (inputDate !== "") {filterDict.push({"datetime":inputDate})};
-  // if (inputCity !== "") {filterDict.push({"city":inputCity})};
-  // if (inputState !== "") {filterDict.push({"state":inputState})};
-  // if (inputCountry !== "") {filterDict.push({"country":inputCountry})};
-  // if (inputShape !== "") {filterDict.push({"shape":inputShape})};
+  var inputCity = d3.select("#city").property("value");
+  var inputState = d3.select("#state").property("value");
+  var inputCountry = d3.select("#country").property("value");
+  var inputShape = d3.select("#shape").property("value");
+  // Creates an object(dictoinary) to store all the input fields
+  var filterDict = {}
+  if (inputDate !== "") {filterDict.datetime = inputDate};
+  if (inputCity !== "") {filterDict.city = inputCity};
+  if (inputState !== "") {filterDict.state = inputState};
+  if (inputCountry !== "") {filterDict.country = inputCountry};
+  if (inputShape !== "") {filterDict.shape = inputShape};
 
   console.log(filterDict)
   var filteredData = tableData
     // Filters the data to only pull in entries matching user date input based on the datetime field
     Object.entries(filterDict).forEach(([key,value]) => {
       console.log(key, value);
-      filteredData = filteredData.filter(sighting => sighting[key] === value);
+      filteredData = filteredData.filter(element => element[key] === value);
     });
     // Pull fitered table from data into <tbody> tag in index.html
-    var fileredTable = filteredData.forEach((sighting) => {
+    var fileredTable = filteredData.forEach((element) => {
       // Connects directly to body of table
       tbody = d3.select("tbody");
-      // Resets any previous data in the table
-      tbody.html("");
+
       // Add a row in the table body for each row in data
       var row = tbody.append("tr");
       // Get all the information from the datas and input it into each table row
-        Object.entries(sighting).forEach(([key,value]) => {
+        Object.entries(element).forEach(([key,value]) => {
             // Add a cell in each row for every entry in the data
             var cell = row.append("td");
             // Input the value of the data point into the cell
@@ -1073,7 +1065,5 @@ if (inputShape !== "") {filterDict.shape = inputShape};
         });
     });
 };
-
-
 // Sets up event handler so that updating the date will call the dateSearch() function
 filterButton.on("click", dateSearch);
