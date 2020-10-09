@@ -1008,8 +1008,10 @@ element.state = String(element.state).toUpperCase();
 element.country = String(element.country).toUpperCase();
 element.shape = String(element.shape).toUpperCase();
 element.durationMinutes = String(element.durationMinutes).toUpperCase();
-element.comments = String(element.comments).toUpperCase();
+// Replace ASCII codes within strings with text values
+element.comments = String(element.comments).replace(/&#33/g, "!").toUpperCase().replace(/&#39/g, "'").replace(/&#44/g, ",").replace(/&QUOT;/g, '"').toUpperCase();
 });
+
 
 // Pull table from data into <tbody> tag in index.html
 var baseTable = data.forEach((sighting) => {
@@ -1066,7 +1068,7 @@ function dateSearch(event) {
             // Add a cell in each row for every entry in the data
             var cell = row.append("td");
             // Input the value of the data point into the cell
-            cell.text(value);        
+            cell.text(value.replace());        
         });
     });
 };
