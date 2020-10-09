@@ -1033,6 +1033,8 @@ var filterButton = d3.select("#filter-btn");
 
 // Create function to pull date from inputbox and filter table results
 function dateSearch(event) {
+  // Prevent the page from refreshing
+  d3.event.preventDefault();
   // Resets any previous data in the table
   tbody.html("");
   // Establishes input variables entered by user (Capitized for continuity of input/comparison)
